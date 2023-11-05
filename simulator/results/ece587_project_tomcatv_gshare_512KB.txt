@@ -1,0 +1,14 @@
+reading benchmark database ./bench.db
+Doing tomcatv
+Installing tomcatv
+ln -s /u/greggbyr/Documents/ece587/simulator/bench/little/tomcatv.ss run.tomcatv
+Pre-run tomcatv
+cp /u/greggbyr/Documents/ece587/simulator/input/ref/tomcatv.* . ; cp /u/greggbyr/Documents/ece587/simulator/input/ref/TOMCATV.MODEL .
+cp: cannot stat '/u/greggbyr/Documents/ece587/simulator/input/ref/tomcatv.*': No such file or directory
+cp: cannot stat '/u/greggbyr/Documents/ece587/simulator/input/ref/TOMCATV.MODEL': No such file or directory
+Run tomcatv
+/u/greggbyr/Documents/ece587/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred 2lev -bpred:2lev 1 524288 19 1 run.tomcatv  < tomcatv.in > tomcatv.out
+sh: 1: cannot open tomcatv.in: No such file
+****** program returns ERROR 512
+Post-run tomcatv
+rm -f -r tomcatv.* TOMCATV.*

@@ -1,0 +1,14 @@
+Sourcing: ./ece587_project_bench_runs_gshare_128KB
+source ./ece587_project_bench_runs_gshare_128KB
+Sourcing: ./ece587_project_bench_runs_gshare_16KB
+source ./ece587_project_bench_runs_gshare_16KB
+Sourcing: ./ece587_project_bench_runs_gshare_1MB
+source ./ece587_project_bench_runs_gshare_1MB
+Sourcing: ./ece587_project_bench_runs_gshare_256KB
+source ./ece587_project_bench_runs_gshare_256KB
+Sourcing: ./ece587_project_bench_runs_gshare_32KB
+source ./ece587_project_bench_runs_gshare_32KB
+Sourcing: ./ece587_project_bench_runs_gshare_512KB
+source ./ece587_project_bench_runs_gshare_512KB
+Sourcing: ./ece587_project_bench_runs_gshare_64KB
+source ./ece587_project_bench_runs_gshare_64KB
