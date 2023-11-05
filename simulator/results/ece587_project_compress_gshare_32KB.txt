@@ -1,0 +1,19 @@
+reading benchmark database ./bench.db
+Doing compress
+Installing compress
+ln -s /u/greggbyr/Documents/ece587/simulator/bench/little/compress.ss run.compress
+Pre-run compress
+cp /u/greggbyr/Documents/ece587/simulator/input/ref/bigtest.in .
+Run compress
+/u/greggbyr/Documents/ece587/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred 2lev -bpred:2lev 1 32768 15 1 run.compress  < bigtest.in > bigtest.out
+sim-outorder: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+fatal: cannot open executable `run.compress'
+****** program returns ERROR 256
+Post-run compress
+rm -f -r bigtest.*

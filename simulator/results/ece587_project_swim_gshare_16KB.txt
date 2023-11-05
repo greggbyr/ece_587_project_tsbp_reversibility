@@ -1,0 +1,13 @@
+reading benchmark database ./bench.db
+Doing swim
+Installing swim
+ln -s /u/greggbyr/Documents/ece587/simulator/bench/little/swim.ss run.swim
+Pre-run swim
+cp /u/greggbyr/Documents/ece587/simulator/input/ref/swim.* .
+cp: cannot stat '/u/greggbyr/Documents/ece587/simulator/input/ref/swim.*': No such file or directory
+Run swim
+/u/greggbyr/Documents/ece587/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred 2lev -bpred:2lev 1 16384 14 1 run.swim  < swim.in > swim.out
+sh: 1: cannot open swim.in: No such file
+****** program returns ERROR 512
+Post-run swim
+rm -f -r swim.*
