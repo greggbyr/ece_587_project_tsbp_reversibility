@@ -129,7 +129,7 @@ bpred_create(enum bpred_class class,	/* type of predictor to create */
   switch (class) {
   case BPredComb:
   case BPred2Level:
-  case BPred2TSBP:
+  case BPredTSBP:
   case BPred2bit:
     {
       int i;
@@ -340,7 +340,7 @@ bpred_dir_config(
       pred_dir->config.two.xor ? "" : "no", pred_dir->config.two.l2size);
     break;
 	
-  case BPred2TSBP:
+  case BPredTSBP:
     fprintf(stream,
       "pred_dir: %s: 2-lvl: %d l1-sz, %d bits/ent, %s xor, %d l2-sz, direct-mapped\n",
       name, pred_dir->config.two.l1size, pred_dir->config.two.shift_width,
@@ -589,7 +589,8 @@ bpred_dir_lookup(struct bpred_dir_t *pred_dir,	/* branch dir predictor inst */
 
   /* Except for jumps, get a pointer to direction-prediction bits */
   switch (pred_dir->class) {
-    case BPred2Level:
+    case BPred2Level:  
+    case BPredTSBP:         /*Add TSBP case, should be same as 2 level but add in check for replay status?*/
       {
 	int l1index, l2index;
 
@@ -696,6 +697,14 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 	}
       break;
     case BPred2Level:
+      if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND))
+	{
+	  dir_update_ptr->pdir1 =
+	    bpred_dir_lookup (pred->dirpred.twolev, baddr);
+	}
+      break;
+
+    case BPredTSBP:   /*add TS case with check for replay mode?*/
       if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND))
 	{
 	  dir_update_ptr->pdir1 =
@@ -920,7 +929,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
   /* update L1 table if appropriate */
   /* L1 table is updated unconditionally for combining predictor too */
   if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND) &&
-      (pred->class == BPred2Level || pred->class == BPredComb))
+      (pred->class == BPred2Level || pred->class == BPredComb))         
     {
       int l1index, shift_reg;
       
@@ -932,6 +941,42 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
       pred->dirpred.twolev->config.two.shiftregs[l1index] =
 	shift_reg & ((1 << pred->dirpred.twolev->config.two.shift_width) - 1);
     }
+
+  /***********************IF TS update L1 table as above, also update correctness buffer*****************************/
+  if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND) &&
+      (pred->class == BPredTSBP))           
+  {
+      int l1index, shift_reg;
+    
+      l1index =
+      (baddr >> MD_BR_SHIFT) & (pred->dirpred.twolev->config.two.l1size - 1);
+          shift_reg =
+      (pred->dirpred.twolev->config.two.shiftregs[l1index] << 1) | (!!taken);
+          pred->dirpred.twolev->config.two.shiftregs[l1index] =
+      shift_reg & ((1 << pred->dirpred.twolev->config.two.shift_width) - 1);
+
+      /*Determine if prediction was correct and append correctness buffer*/
+      int actual_outcome = !!pred_taken == !!taken;
+      unsigned int key;
+
+      pred_ts->ts.correctness_buffer[pred_ts->ts.tail++] = actual_outcome;
+      
+      /*if incorrect prediction update head table*/
+      if(!actual_outcome)
+      {
+        /*create key*/
+        key = ; //to do?
+        if(!pred_ts->ts.replay)   /*if not in replay mode, update head and set replay flag*/
+        {
+          pred_ts->ts.head = pred_ts->ts.head_table[key];
+          pred_ts->ts.replay = true;
+        }
+        pred_ts->ts.head_table[key] = pred_ts->ts.tail;   //else update head table
+
+      }
+      
+    
+  }
 
   /* find BTB entry if it's a taken branch (don't allocate for non-taken) */
   if (taken)
