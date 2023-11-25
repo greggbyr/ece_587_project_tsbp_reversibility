@@ -657,6 +657,7 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 {
   struct bpred_btb_ent_t *pbtb = NULL;
   int index, i;
+  int base_outcome;
 
   if (!dir_update_ptr)
     panic("no bpred update record");
@@ -706,24 +707,25 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 /**************************add TSBP case*********************************************/
     case BPredTSBP:   
        if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND)) {
-          char *base_outcome;
-          base_outcome = bpred_dir_lookup (pred->dirpred.twolev, baddr);  //get 2level base outcome prediction
-    
+	  char *dir_lookup;
+          dir_lookup = bpred_dir_lookup (pred->dirpred.twolev, baddr);  //get 2level base outcome prediction
+    	  base_outcome = *dir_lookup;
+
           /*if in replay mode and corretness buffer head indicates base predictor mistake*/
           if(pred->dirpred.tsbp->ts.replay) {
+             /*Prevent CB head from going out of bounds*/
 	     if (pred->dirpred.tsbp->ts.head >= pred->dirpred.tsbp->ts.correctness_width) {
 	        pred->dirpred.tsbp->ts.head = 0;
 	     } else {
 	        pred->dirpred.tsbp->ts.head++;
 	     }
 	  
-	  if (pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.head] == 0) {
-      	     dir_update_ptr->pdir1 = (!(*base_outcome >= 2));    //set direction to opposite of base pred
-    	  } else {
-	     dir_update_ptr->pdir1 = (*base_outcome >= 2);       //else set direction to base prediction
-	  }
-       } else {
-          dir_update_ptr->pdir1 = (*base_outcome >= 2);       //else set direction to base prediction
+	     if (pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.head] == 0) {
+                base_outcome = 3 - base_outcome;		//Set base outcome to opposite value (if 3, becomes 0 or if 1 becomes 2)
+    	     }  
+          }
+
+	  dir_update_ptr->pdir1 = &base_outcome;
        }
        break;
     case BPred2bit:
@@ -971,28 +973,49 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
           pred->dirpred.twolev->config.two.shiftregs[l1index] =
       shift_reg & ((1 << pred->dirpred.twolev->config.two.shift_width) - 1);
 
-      int actual_outcome; 
+      int base_outcome;
+      int ts_outcome;
       unsigned int key;
       
-      /*determine if actual outcome of predicted direction is correct and update correctness buffer*/
-      actual_outcome = !!pred_taken == !!taken; 
+      /*Set the base outcome; Also if in replay mode and ts_outcome is incorrect, turn off replay mode*/
+      if (pred->dirpred.tsbp->ts.replay) {
+	 ts_outcome = pred_taken;
+
+	 if (ts.correctness_buffer[pred->dirpred.tsbp->ts.head] == 0) {
+	    base_outcome = !pred_taken;
+	 } else {
+            base_outcome = pred_taken;
+         }
+
+	 if (!!ts_outcome != !!taken) {
+	    pred->dirpred.tsbp->ts.replay = false;
+         }
+      } else {
+         base_outcome = pred_taken;
+      }
+      
+      /*Prevent CB tail from going out of bounds*/
       if (pred->dirpred.tsbp->ts.tail >= pred->dirpred.tsbp->ts.correctness_width) {
 	  pred->dirpred.tsbp->ts.tail = 0;
       } else {
 	  pred->dirpred.tsbp->ts.tail++;
       }
-      pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.tail] = actual_outcome;  /*1 = base predictor correct. 0 = prediction incorrect*/
+
+      /*determine if actual outcome (taken) of predicted direction is correct and update correctness buffer*/
+      pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.tail] = (!!base_outcome == !!taken);  /*1 = base predictor correct. 0 = prediction incorrect*/
       
       /*if incorrect base prediction, update head table*/
-      if(!actual_outcome)
+      if (!!base_outcome != !!taken)
       {
         /*create key concatenating current PC and global history bits*/
         key = baddr; //to do?
-        if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
+	
+	if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
         {
           pred->dirpred.tsbp->ts.head = pred->dirpred.tsbp->ts.head_table[key];
           pred->dirpred.tsbp->ts.replay = true;
         }
+
         pred->dirpred.tsbp->ts.head_table[key] = pred->dirpred.tsbp->ts.tail;   //else update head table
       }
   }
