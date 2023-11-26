@@ -975,7 +975,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
 
       int base_outcome;
       int ts_outcome;
-      unsigned int key;
+      ts_key_t key;  /*added typedef in tsbp.h file*/
       
       /*Set the base outcome; Also if in replay mode and ts_outcome is incorrect, turn off replay mode*/
       if (pred->dirpred.tsbp->ts.replay) {
@@ -1008,13 +1008,16 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
       if (!!base_outcome != !!taken)
       {
         /*create key concatenating current PC and global history bits*/
-        key = baddr; //to do?
-	
-	if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
-        {
-          pred->dirpred.tsbp->ts.head = pred->dirpred.tsbp->ts.head_table[key];
-          pred->dirpred.tsbp->ts.replay = true;
+        key = (baddr <<  pred->dirpred.twolev->config.two.shift_width); /*shift PC by L1 width of L1 global history reg*/
+        for(int i = 0; i <  pred->dirpred.twolev->config.two.shift_width; i++){
+          key = (key << 1) | pred->dirpred.twolev->config.two.shiftregs[i]; /*shift a bit, "or" LSB with history reg value*/
         }
+	
+        if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
+          {
+            pred->dirpred.tsbp->ts.head = pred->dirpred.tsbp->ts.head_table[key];
+            pred->dirpred.tsbp->ts.replay = true;
+          }
 
         pred->dirpred.tsbp->ts.head_table[key] = pred->dirpred.tsbp->ts.tail;   //else update head table
       }
