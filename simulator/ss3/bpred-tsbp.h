@@ -150,6 +150,8 @@ struct bpred_ts_t {
   } ts;
 };
 
+typedef unsigned long long ts_key_t; /*TS Key data type*/
+
 /* branch predictor def */
 struct bpred_t {
   enum bpred_class class;	/* type of predictor */
