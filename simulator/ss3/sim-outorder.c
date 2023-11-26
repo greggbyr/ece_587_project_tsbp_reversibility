@@ -123,6 +123,11 @@ static int twolev_nelt = 4;
 static int twolev_config[4] =
   { /* l1size */1, /* l2size */1024, /* hist */8, /* xor */FALSE};
 
+/* tsbp config (<l1size> <l2size> <hist_size> <xor> <head_table_width>) */  
+static int tsbp_nelt = 5;
+static int tsbp_config[5] =
+  { /* l1size */1, /* l2size */16384, /* hist */14, /* xor */TRUE, /*head_table_width*/ 16384};
+
 /* combining predictor config (<meta_table_size> */
 static int comb_nelt = 1;
 static int comb_config[1] =
@@ -666,6 +671,13 @@ sim_reg_options(struct opt_odb_t *odb)
                    twolev_config, twolev_nelt, &twolev_nelt,
 		   /* default */twolev_config,
                    /* print */TRUE, /* format */NULL, /* !accrue */FALSE);
+				   
+  opt_reg_int_list(odb, "-bpred:tsbp",
+                   "TSBP predictor config "
+		   "(<l1size> <l2size> <hist_size> <xor> <head_table_width>)",
+                   tsbp_config, tsbp_nelt, &tsbp_nelt,
+		   /* default */tsbp_config,
+                   /* print */TRUE, /* format */NULL, /* !accrue */FALSE);
 
   opt_reg_int_list(odb, "-bpred:comb",
 		   "combining predictor config (<meta_table_size>)",
@@ -903,12 +915,12 @@ sim_check_options(struct opt_odb_t *odb,        /* options database */
   else if (!mystricmp(pred_type, "taken"))
     {
       /* static predictor, not taken */
-      pred = bpred_create(BPredTaken, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      pred = bpred_create(BPredTaken, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
   else if (!mystricmp(pred_type, "nottaken"))
     {
       /* static predictor, taken */
-      pred = bpred_create(BPredNotTaken, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      pred = bpred_create(BPredNotTaken, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
   else if (!mystricmp(pred_type, "bimod"))
     {
@@ -926,6 +938,7 @@ sim_check_options(struct opt_odb_t *odb,        /* options database */
 			  /* meta table size */0,
 			  /* history reg size */0,
 			  /* history xor address */0,
+        /* TSBP Header Width */0,
 			  /* btb sets */btb_config[0],
 			  /* btb assoc */btb_config[1],
 			  /* ret-addr stack size */ras_size);
@@ -945,6 +958,27 @@ sim_check_options(struct opt_odb_t *odb,        /* options database */
 			  /* meta table size */0,
 			  /* history reg size */twolev_config[2],
 			  /* history xor address */twolev_config[3],
+        /* TSBP Header Width */0,
+			  /* btb sets */btb_config[0],
+			  /* btb assoc */btb_config[1],
+			  /* ret-addr stack size */ras_size);
+    }
+  else if (!mystricmp(pred_type, "tsbp"))
+    {
+      /* Temporal Stream adaptive predictor, bpred_create() checks args */
+      if (tsbp_nelt != 5)
+	fatal("bad TSBP pred config (<l1size> <l2size> <hist_size> <xor> <head_table_width>)");
+      if (btb_nelt != 2)
+	fatal("bad btb config (<num_sets> <associativity>)");
+
+      pred = bpred_create(BPredTSBP,
+			  /* bimod table size */0,
+			  /* 2lev l1 size */tsbp_config[0],
+			  /* 2lev l2 size */tsbp_config[1],
+			  /* meta table size */0,
+			  /* history reg size */tsbp_config[2],
+			  /* history xor address */tsbp_config[3],
+			  /* TSBP Header Width */tsbp_config[4],
 			  /* btb sets */btb_config[0],
 			  /* btb assoc */btb_config[1],
 			  /* ret-addr stack size */ras_size);
@@ -968,6 +1002,7 @@ sim_check_options(struct opt_odb_t *odb,        /* options database */
 			  /* meta table size */comb_config[0],
 			  /* history reg size */twolev_config[2],
 			  /* history xor address */twolev_config[3],
+        /* TSBP Header Width */0,
 			  /* btb sets */btb_config[0],
 			  /* btb assoc */btb_config[1],
 			  /* ret-addr stack size */ras_size);
