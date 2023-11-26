@@ -142,11 +142,11 @@ struct bpred_ts_t {
     unsigned int head_table_size;		/* head table size, number of head table entries */
     unsigned int head_table_width;		/* head table width, correlated w/ correctness buffer header size */
     unsigned int correctness_width;		/* correctness circular buffer width, 2^head_table_width */
-    bool *correctness_buffer;			/* correctness circular buffer */
+    bool_t *correctness_buffer;			/* correctness circular buffer */
     unsigned int *head_table;			/* head table containing pointers to circular buffer */
 	unsigned int head;					/* head of the circular buffer */
 	unsigned int tail;					/* tail of the circular buffer */
-	bool replay;						/* replay flag */
+	bool_t replay;						/* replay flag */
   } ts;
 };
 
@@ -214,6 +214,7 @@ bpred_create(enum bpred_class class,	/* type of predictor to create */
 	     unsigned int meta_size,	/* meta predictor table size */
 	     unsigned int shift_width,	/* history register width */
 	     unsigned int xor,		/* history xor address flag */
+       unsigned int head_table_width, /*TS head table width*/
 	     unsigned int btb_sets,	/* number of sets in BTB */ 
 	     unsigned int btb_assoc,	/* BTB associativity */
 	     unsigned int retstack_size);/* num entries in ret-addr stack */
@@ -226,6 +227,14 @@ bpred_dir_create (
   unsigned int l2size,		/* level-2 table size (if relevant) */
   unsigned int shift_width,	/* history register width */
   unsigned int xor);	   	/* history xor address flag */
+
+
+/* create a branch direction predictor */
+struct bpred_ts_t *		/* temporal stream branch predictor instance */
+bpred_ts_create (
+  enum bpred_class class,	/* type of predictor to create */
+  unsigned int head_table_width,	 	/* head table width */
+  unsigned int head_table_size);			/* header table size */
 
 /* print branch predictor configuration */
 void

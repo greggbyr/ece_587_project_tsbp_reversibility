@@ -110,7 +110,7 @@ bpred_create(enum bpred_class class,	/* type of predictor to create */
       bpred_dir_create(BPred2Level, l1size, l2size, shift_width, xor);
 	
 	pred->dirpred.tsbp =
-	  bpred_ts_create(class, head_table_width, (shift_width + sizeof(md_addr_t))); /* md_addr_t is the size of the PC*/
+	  bpred_ts_create(class, head_table_width, ((ts_key_t)1 * (md_addr_t)1)); /* md_addr_t is the size of the PC*/
     break;
 
   case BPred2bit:
@@ -281,7 +281,7 @@ bpred_ts_create (
   unsigned int head_table_size)			/* header table size */
 {
   struct bpred_ts_t *pred_ts;
-  unsigned int key;
+  ts_key_t key;
   
   if (!(pred_ts = calloc(1, sizeof(struct bpred_ts_t))))
     fatal("out of virtual memory");
@@ -297,9 +297,10 @@ bpred_ts_create (
 	fatal("head table width, `%d', must be non-zero and positive", head_table_width);
   
   pred_ts->ts.head_table_width = head_table_width;
-  
+ 
+  //panic("Allocating Head Table...");
   pred_ts->ts.head_table = calloc(head_table_size, head_table_width);
-  
+  //panic("Head Table Allocated!");
   if (!pred_ts->ts.head_table)
 	fatal("cannot allocate head table");
 
@@ -658,7 +659,7 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 {
   struct bpred_btb_ent_t *pbtb = NULL;
   int index, i;
-  int base_outcome;
+  char base_outcome;
 
   if (!dir_update_ptr)
     panic("no bpred update record");
@@ -1012,7 +1013,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
         int i;
         key = (baddr <<  pred->dirpred.twolev->config.two.shift_width); /*shift PC by L1 width of L1 global history reg*/
         for(i = 0; i <  pred->dirpred.twolev->config.two.shift_width; i++){
-          key = (key << 1) | pred->dirpred.twolev->config.two.shiftregs[i]; /*shift a bit, "or" LSB with history reg value*/
+          key = key | (pred->dirpred.twolev->config.two.shiftregs[i] << i); /*shift reg bit by i bits into key*/
         }
 	
         if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
