@@ -110,7 +110,7 @@ bpred_create(enum bpred_class class,	/* type of predictor to create */
       bpred_dir_create(BPred2Level, l1size, l2size, shift_width, xor);
 	
 	pred->dirpred.tsbp =
-	  bpred_ts_create(class, head_table_width, ((ts_key_t)1 * (md_addr_t)1)); /* md_addr_t is the size of the PC*/
+	  bpred_ts_create(class, head_table_width, ((unsigned int)l2size << 3)); /* md_addr_t is the size of the PC*/
     break;
 
   case BPred2bit:
@@ -281,14 +281,14 @@ bpred_ts_create (
   unsigned int head_table_size)			/* header table size */
 {
   struct bpred_ts_t *pred_ts;
-  ts_key_t key;
+  unsigned int key;
   
   if (!(pred_ts = calloc(1, sizeof(struct bpred_ts_t))))
     fatal("out of virtual memory");
 
   pred_ts->class = class;
 
-  if (!head_table_size || (head_table_size & (head_table_size-1)) != 0)
+  if (!head_table_size || (head_table_size & (head_table_size - 1)) != 0)
 	fatal("head table size, `%d', must be non-zero and a power of two", head_table_size);
   
   pred_ts->ts.head_table_size = head_table_size;
@@ -298,11 +298,19 @@ bpred_ts_create (
   
   pred_ts->ts.head_table_width = head_table_width;
  
-  //panic("Allocating Head Table...");
-  pred_ts->ts.head_table = calloc(head_table_size, head_table_width);
-  //panic("Head Table Allocated!");
+  pred_ts->ts.head_table = calloc(head_table_size, sizeof(unsigned int));
+  //if (head_table_width % 8) { 
+  //	pred_ts->ts.head_table = calloc(head_table_size, ((head_table_width / 8) + 1));
+  //} else {
+//	pred_ts->ts.head_table = calloc(head_table_size, (head_table_width / 8));
+  //}
+  
   if (!pred_ts->ts.head_table)
 	fatal("cannot allocate head table");
+
+  /* initializing head table entries to NULL*/
+  for (key = 0; key < head_table_size; key++)
+	  pred_ts->ts.head_table[key] = NULL;
 
   pred_ts->ts.correctness_width = 2 << (head_table_width - 1);
   
@@ -310,10 +318,10 @@ bpred_ts_create (
 
   if (!pred_ts->ts.correctness_buffer)
 	fatal("cannot allocate correctness buffer");
-	
-  /* initialize head table entries to 0 */
-  for (key = 0; key < head_table_size; key++)
-    pred_ts->ts.head_table[key] = 0;
+
+   /* initializing CB bits to 0*/
+  for (key = 0; key < pred_ts->ts.correctness_width; key++)
+  	pred_ts->ts.correctness_buffer[key] = 0;
 
   /* initialize current head of the correctness buffer */
   pred_ts->ts.head = 0;
@@ -977,7 +985,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
 
       int base_outcome;
       int ts_outcome;
-      ts_key_t key;  /*added typedef in tsbp.h file*/
+      unsigned int key;  /*added typedef in tsbp.h file*/
       
       /*Set the base outcome; Also if in replay mode and ts_outcome is incorrect, turn off replay mode*/
       if (pred->dirpred.tsbp->ts.replay) {
@@ -1011,12 +1019,18 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
       {
         /*create key concatenating current PC and global history bits*/
         int i;
-        key = (baddr <<  pred->dirpred.twolev->config.two.shift_width); /*shift PC by L1 width of L1 global history reg*/
-        for(i = 0; i <  pred->dirpred.twolev->config.two.shift_width; i++){
-          key = key | (pred->dirpred.twolev->config.two.shiftregs[i] << i); /*shift reg bit by i bits into key*/
+        key = (unsigned int)baddr << 5; // & ( <<  pred->dirpred.twolev->config.two.shift_width); /*shift PC by L1 width of L1 global history reg*/
+        for (i = 1; i < 6; i++) {
+	  key = key | (pred->dirpred.twolev->config.two.shiftregs[pred->dirpred.twolev->config.two.shift_width-i] << i);
+	}
+
+	unsigned int key_mask = 0;
+	for(i = 0; i <  ((unsigned int)pred->dirpred.twolev->config.two.shift_width << 3); i++){
+          key = key | (1 << i); /*shift reg bit by i bits into key*/
         }
+	key = key & key_mask;
 	
-        if(!pred->dirpred.tsbp->ts.replay)   /*if not in replay mode, update head and set replay flag*/
+        if(!pred->dirpred.tsbp->ts.replay && pred->dirpred.tsbp->ts.head_table[key] != NULL)   /*if not in replay mode, update head and set replay flag*/
           {
             pred->dirpred.tsbp->ts.head = pred->dirpred.tsbp->ts.head_table[key];
             pred->dirpred.tsbp->ts.replay = TRUE;

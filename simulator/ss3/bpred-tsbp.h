@@ -135,6 +135,8 @@ struct bpred_dir_t {
   } config;
 };
 
+typedef unsigned long long ts_key_t; /*TS Key data type*/
+
 /* temporal stream predictor def */
 struct bpred_ts_t {
   enum bpred_class class;				/* type of predictor */
@@ -149,8 +151,6 @@ struct bpred_ts_t {
 	bool_t replay;						/* replay flag */
   } ts;
 };
-
-typedef unsigned long long ts_key_t; /*TS Key data type*/
 
 /* branch predictor def */
 struct bpred_t {
