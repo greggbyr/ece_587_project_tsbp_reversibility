@@ -187,6 +187,9 @@ struct bpred_t {
   counter_t misses;		/* num incorrect predictions */
 
   counter_t lookups;		/* num lookups */
+
+  counter_t replays;	        /* num of replays */
+
   counter_t retstack_pops;	/* number of times a value was popped */
   counter_t retstack_pushes;	/* number of times a value was pushed */
   counter_t ras_hits;		/* num correct return-address predictions */

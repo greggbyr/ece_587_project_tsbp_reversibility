@@ -505,6 +505,10 @@ bpred_reg_stats(struct bpred_t *pred,	/* branch predictor instance */
 		       "total number of 2-level predictions used", 
 		       &pred->used_2lev, 0, NULL);
     }
+  if (pred->class == BPredTSBP) {
+       sprintf(buf, "%s.replays", name);
+       stat_reg_counter(sdb, buf, "total number of replays", &pred->replays, 0, NULL);
+  }
   sprintf(buf, "%s.misses", name);
   stat_reg_counter(sdb, buf, "total number of misses", &pred->misses, 0, NULL);
   sprintf(buf, "%s.jr_hits", name);
@@ -581,6 +585,7 @@ bpred_after_priming(struct bpred_t *bpred)
   bpred->jr_hits = 0;
   bpred->jr_seen = 0;
   bpred->misses = 0;
+  bpred->replays = 0;
   bpred->retstack_pops = 0;
   bpred->retstack_pushes = 0;
   bpred->ras_hits = 0;
@@ -720,17 +725,20 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 	  char *dir_lookup;
           dir_lookup = bpred_dir_lookup (pred->dirpred.twolev, baddr);  //get 2level base outcome prediction
     	  base_outcome = *dir_lookup;
+          unsigned int head;
 
           /*if in replay mode and corretness buffer head indicates base predictor mistake*/
           if(pred->dirpred.tsbp->ts.replay) {
              /*Prevent CB head from going out of bounds*/
-	     if (pred->dirpred.tsbp->ts.head >= pred->dirpred.tsbp->ts.correctness_width) {
-	        pred->dirpred.tsbp->ts.head = 0;
+	     
+	
+             if (pred->dirpred.tsbp->ts.head >= pred->dirpred.tsbp->ts.correctness_width) {
+	        head = 0;
 	     } else {
-	        pred->dirpred.tsbp->ts.head++;
+	        head = pred->dirpred.tsbp->ts.head + 1;
 	     }
 	  
-	     if (pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.head] == 0) {
+	     if (pred->dirpred.tsbp->ts.correctness_buffer[head] == 0) {
                 base_outcome = 3 - base_outcome;		//Set base outcome to opposite value (if 3, becomes 0 or if 1 becomes 2)
     	     }  
           }
@@ -882,6 +890,8 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
   struct bpred_btb_ent_t *pbtb = NULL;
   struct bpred_btb_ent_t *lruhead = NULL, *lruitem = NULL;
   int index, i;
+  unsigned int head;
+  bool_t was_replay;
 
   /* don't change bpred state for non-branch instructions or if this
    * is a stateless predictor*/
@@ -956,7 +966,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
   /* update L1 table if appropriate */
   /* L1 table is updated unconditionally for combining predictor too */
   if ((MD_OP_FLAGS(op) & (F_CTRL|F_UNCOND)) != (F_CTRL|F_UNCOND) &&
-      (pred->class == BPred2Level || pred->class == BPredComb))         
+      (pred->class == BPred2Level))         
     {
       int l1index, shift_reg;
       
@@ -975,36 +985,43 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
   {
       int l1index, shift_reg;
     
-      /*update L1 table, same as 2lev/comb predictors above this*/
-      l1index =
-      (baddr >> MD_BR_SHIFT) & (pred->dirpred.twolev->config.two.l1size - 1);
-          shift_reg =
-      (pred->dirpred.twolev->config.two.shiftregs[l1index] << 1) | (!!taken);
-          pred->dirpred.twolev->config.two.shiftregs[l1index] =
-      shift_reg & ((1 << pred->dirpred.twolev->config.two.shift_width) - 1);
+      /* update L1 table, same as 2lev/comb predictors above this */
+      l1index = (baddr >> MD_BR_SHIFT) & (pred->dirpred.twolev->config.two.l1size - 1);
+      shift_reg = (pred->dirpred.twolev->config.two.shiftregs[l1index] << 1) | (!!taken);
+      pred->dirpred.twolev->config.two.shiftregs[l1index] = shift_reg & ((1 << pred->dirpred.twolev->config.two.shift_width) - 1);
 
       int base_outcome;
       int ts_outcome;
       unsigned int key;  /*added typedef in tsbp.h file*/
       
+      /* Set a pointer to head++ */
+      if (pred->dirpred.tsbp->ts.head >= pred->dirpred.tsbp->ts.correctness_width) {
+         head = 0;
+      } else {
+         head = pred->dirpred.tsbp->ts.head + 1;
+      }
+
       /*Set the base outcome; Also if in replay mode and ts_outcome is incorrect, turn off replay mode*/
       if (pred->dirpred.tsbp->ts.replay) {
+	 was_replay = TRUE;
+	 pred->replays++;
 	 ts_outcome = pred_taken;
 
-	 if (pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.head] == 0) {
+	 if (pred->dirpred.tsbp->ts.correctness_buffer[head] == 0) {
 	    base_outcome = !pred_taken;
 	 } else {
             base_outcome = pred_taken;
          }
 
-	 if (!!ts_outcome != !!taken) {
+	 if ((!!ts_outcome != !!base_outcome) && (!!ts_outcome != !!taken)) {
 	    pred->dirpred.tsbp->ts.replay = FALSE;
          }
       } else {
+	 was_replay = FALSE;
          base_outcome = pred_taken;
       }
       
-      /*Prevent CB tail from going out of bounds*/
+      /* incr tail but prevent from going out of bounds*/
       if (pred->dirpred.tsbp->ts.tail >= pred->dirpred.tsbp->ts.correctness_width) {
 	  pred->dirpred.tsbp->ts.tail = 0;
       } else {
@@ -1025,12 +1042,12 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
 	}
 
 	unsigned int key_mask = 0;
-	for(i = 0; i <  ((unsigned int)pred->dirpred.twolev->config.two.shift_width << 3); i++){
-          key = key | (1 << i); /*shift reg bit by i bits into key*/
+	for(i = 0; i < (pred->dirpred.twolev->config.two.shift_width + 3); i++){
+          key_mask = key_mask | (1 << i); /*shift reg bit by i bits into key*/
         }
 	key = key & key_mask;
 	
-        if(!pred->dirpred.tsbp->ts.replay && pred->dirpred.tsbp->ts.head_table[key] != NULL)   /*if not in replay mode, update head and set replay flag*/
+        if(!pred->dirpred.tsbp->ts.replay && (pred->dirpred.tsbp->ts.head_table[key] != NULL))   /*if not in replay mode, update head and set replay flag*/
           {
             pred->dirpred.tsbp->ts.head = pred->dirpred.tsbp->ts.head_table[key];
             pred->dirpred.tsbp->ts.replay = TRUE;
@@ -1113,17 +1130,14 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
 
   /* update state (but not for jumps) */
   if (dir_update_ptr->pdir1)
-    {
-      if (taken)
-	{
-	  if (*dir_update_ptr->pdir1 < 3)
-	    ++*dir_update_ptr->pdir1;
-	}
-      else
-	{ /* not taken */
-	  if (*dir_update_ptr->pdir1 > 0)
-	    --*dir_update_ptr->pdir1;
-	}
+    { 
+        if (taken) {
+          if (*dir_update_ptr->pdir1 < 3)
+            ++*dir_update_ptr->pdir1;
+        } else { /* not taken */
+          if (*dir_update_ptr->pdir1 > 0)
+            --*dir_update_ptr->pdir1;
+        }
     }
 
   /* combining predictor also updates second predictor and meta predictor */

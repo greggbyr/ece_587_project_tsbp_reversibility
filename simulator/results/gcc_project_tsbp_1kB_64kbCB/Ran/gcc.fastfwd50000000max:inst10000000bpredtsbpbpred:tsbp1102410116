@@ -4,7 +4,7 @@ run time:	11 seconds (0 hours, 0 minutes)
 program returned 0
 
 start time:	,   at :: 
-run time:	10 seconds (0 hours, 0 minutes)
+run time:	11 seconds (0 hours, 0 minutes)
 program returned 0
 
 start time:	,   at :: 
@@ -12,5 +12,13 @@ run time:	11 seconds (0 hours, 0 minutes)
 program returned 0
 
 start time:	,   at :: 
-run time:	2 seconds (0 hours, 0 minutes)
+run time:	0 seconds (0 hours, 0 minutes)
 program returned 35584
+
+start time:	,   at :: 
+run time:	11 seconds (0 hours, 0 minutes)
+program returned 0
+
+start time:	,   at :: 
+run time:	11 seconds (0 hours, 0 minutes)
+program returned 0
