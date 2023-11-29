@@ -1,0 +1,20 @@
+reading benchmark database ./bench.db
+Doing gzip
+Installing gzip
+ln -s /u/greggbyr/Documents/ece587/proj_git/simulator/bench/little/gzip_alpha.ss run.gzip
+Pre-run gzip
+cp /u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/input.compressed .
+cp: cannot stat '/u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/input.compressed': No such file or directory
+Run gzip
+/u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 65536 16 1 30 run.gzip input.compressed 2 > input.compressed.out > input.compressed.out
+sim-outorder: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+fatal: cannot open executable `run.gzip'
+****** program returns ERROR 256
+Post-run gzip
+rm -f -r input.compressed*

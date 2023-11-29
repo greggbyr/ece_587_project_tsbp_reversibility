@@ -1013,7 +1013,7 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
             base_outcome = pred_taken;
          }
 
-	 if ((!!ts_outcome != !!base_outcome) && (!!ts_outcome != !!taken)) {
+	 if (!!ts_outcome != !!taken) {
 	    pred->dirpred.tsbp->ts.replay = FALSE;
          }
       } else {
@@ -1022,11 +1022,11 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
       }
       
       /* incr tail but prevent from going out of bounds*/
-      if (pred->dirpred.tsbp->ts.tail >= pred->dirpred.tsbp->ts.correctness_width) {
-	  pred->dirpred.tsbp->ts.tail = 0;
-      } else {
-	  pred->dirpred.tsbp->ts.tail++;
-      }
+      //if (pred->dirpred.tsbp->ts.tail >= pred->dirpred.tsbp->ts.correctness_width) {
+	//  pred->dirpred.tsbp->ts.tail = 0;
+      //} else {
+	//  pred->dirpred.tsbp->ts.tail++;
+      //}
 
       /*determine if actual outcome (taken) of predicted direction is correct and update correctness buffer*/
       pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.tail] = (!!base_outcome == !!taken);  /*1 = base predictor correct. 0 = prediction incorrect*/
@@ -1054,6 +1054,13 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
           }
 
         pred->dirpred.tsbp->ts.head_table[key] = pred->dirpred.tsbp->ts.tail;   //else update head table
+      }
+
+      /* incr tail but prevent from going out of bounds*/
+      if (pred->dirpred.tsbp->ts.tail >= pred->dirpred.tsbp->ts.correctness_width) {
+          pred->dirpred.tsbp->ts.tail = 0;
+      } else {
+          pred->dirpred.tsbp->ts.tail++;
       }
   }
 

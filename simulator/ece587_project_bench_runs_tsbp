@@ -1,0 +1,16 @@
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_128KB"
+source ./ece587_project_bench_runs_tsbp_128KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_16KB"
+source ./ece587_project_bench_runs_tsbp_16KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_1MB"
+source ./ece587_project_bench_runs_tsbp_1MB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_256KB"
+source ./ece587_project_bench_runs_tsbp_256KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_32KB"
+source ./ece587_project_bench_runs_tsbp_32KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_512KB"
+source ./ece587_project_bench_runs_tsbp_512KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_64KB"
+source ./ece587_project_bench_runs_tsbp_64KB
+echo "Sourcing: ./ece587_project_bench_runs_tsbp_CB_var"
+source ./ece587_project_bench_runs_tsbp_CB_var

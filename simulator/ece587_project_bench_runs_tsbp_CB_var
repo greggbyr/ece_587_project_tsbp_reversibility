@@ -1,0 +1,12 @@
+echo "running cmd for gcc at CB width 2^30"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 30" >& results/ece587_project_gcc_tsbp_512KB.txt
+echo "running cmd for gcc at CB width 2^16"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 16" >& results/ece587_project_gcc_tsbp_512KB_16.txt
+echo "running cmd for gcc at CB width 2^8"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 8" >& results/ece587_project_gcc_tsbp_512KB_8.txt
+echo "running cmd for gcc at CB width 2^4"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 4" >& results/ece587_project_gcc_tsbp_512KB_4.txt
+echo "running cmd for gcc at CB width 2^2"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 2" >& results/ece587_project_gcc_tsbp_512KB_2.txt
+echo "running cmd for gcc at CB width 2^1"
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_512KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 1" >& results/ece587_project_gcc_tsbp_512KB_1.txt
