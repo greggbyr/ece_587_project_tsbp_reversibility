@@ -1,0 +1,826 @@
+reading benchmark database ./bench.db
+Doing gcc
+Installing gcc
+ln -s /u/vvan/ECE587/repo/ece_587_project_tsbp_reversibility/simulator/bench/little/cc1.ss run.gcc
+Pre-run gcc
+cp /u/vvan/ECE587/repo/ece_587_project_tsbp_reversibility/simulator/input/ref/varasm.i .
+Run gcc
+/u/vvan/ECE587/repo/ece_587_project_tsbp_reversibility/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 300 -bpred tsbp -bpred:tsbp 1 524288 19 1 30 run.gcc varasm.i -quiet -funroll-loops -fforce-mem -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fstrength-reduce -fpeephole -fschedule-insns -finline-functions -fschedule-insns2 -O -o varasm.s > varasm.out
+sim-outorder: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: /u/vvan/ECE587/repo/ece_587_project_tsbp_reversibility/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 300 -bpred tsbp -bpred:tsbp 1 524288 19 1 30 run.gcc varasm.i -quiet -funroll-loops -fforce-mem -fcse-follow-jumps -fcse-skip-blocks -fexpensive-optimizations -fstrength-reduce -fpeephole -fschedule-insns -finline-functions -fschedule-insns2 -O -o varasm.s 
+
+sim: simulation started @ Tue Nov 28 14:34:28 2023, options follow:
+
+sim-outorder: This simulator implements a very detailed out-of-order issue
+superscalar processor with a two-level memory system and speculative
+execution support.  This simulator is a performance simulator, tracking the
+latency of all pipeline operations.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                 300 # maximum number of inst's to execute
+-fastfwd             50000000 # number of insts skipped before timing starts
+# -ptrace              <null> # generate pipetrace, i.e., <fname|stdout|stderr> <range>
+-fetch:ifqsize              4 # instruction fetch queue size (in insts)
+-fetch:mplat                3 # extra branch mis-prediction latency
+-fetch:speed                1 # speed of front-end of machine relative to execution core
+-bpred                   tsbp # branch predictor type {nottaken|taken|perfect|bimod|2lev|comb|tsbp}
+-bpred:bimod     2048 # bimodal predictor config (<table size>)
+-bpred:2lev      1 1024 8 0 # 2-level predictor config (<l1size> <l2size> <hist_size> <xor>)
+-bpred:tsbp      1 524288 19 1 30 # TSBP predictor config (<l1size> <l2size> <hist_size> <xor> <head_table_width>)
+-bpred:comb      1024 # combining predictor config (<meta_table_size>)
+-bpred:ras                  8 # return address stack size (0 for no return stack)
+-bpred:btb       512 4 # BTB config (<num_sets> <associativity>)
+# -bpred:spec_update       <null> # speculative predictors update in {ID|WB} (default non-spec)
+-decode:width               4 # instruction decode B/W (insts/cycle)
+-issue:width                4 # instruction issue B/W (insts/cycle)
+-issue:inorder          false # run pipeline with in-order issue
+-issue:wrongpath         true # issue instructions down wrong execution paths
+-commit:width               4 # instruction commit B/W (insts/cycle)
+-ruu:size                  16 # register update unit (RUU) size
+-lsq:size                   8 # load/store queue (LSQ) size
+-cache:dl1       dl1:128:32:4:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl1lat               1 # l1 data cache hit latency (in cycles)
+-cache:dl2       ul2:1024:64:4:l # l2 data cache config, i.e., {<config>|none}
+-cache:dl2lat               6 # l2 data cache hit latency (in cycles)
+-cache:il1       il1:512:32:1:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il1lat               1 # l1 instruction cache hit latency (in cycles)
+-cache:il2                dl2 # l2 instruction cache config, i.e., {<config>|dl2|none}
+-cache:il2lat               6 # l2 instruction cache hit latency (in cycles)
+-cache:flush            false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+-mem:lat         18 2 # memory access latency (<first_chunk> <inter_chunk>)
+-mem:width                  8 # memory access bus width (in bytes)
+-tlb:itlb        itlb:16:4096:4:l # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb        dtlb:32:4096:4:l # data TLB config, i.e., {<config>|none}
+-tlb:lat                   30 # inst/data TLB miss latency (in cycles)
+-res:ialu                   4 # total number of integer ALU's available
+-res:imult                  1 # total number of integer multiplier/dividers available
+-res:memport                2 # total number of memory system ports available (to CPU)
+-res:fpalu                  4 # total number of floating point ALU's available
+-res:fpmult                 1 # total number of floating point multiplier/dividers available
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+-bugcompat              false # operate in backward-compatible bugs mode (for testing only)
+
+  Pipetrace range arguments are formatted as follows:
+
+    {{@|#}<start>}:{{@|#|+}<end>}
+
+  Both ends of the range are optional, if neither are specified, the entire
+  execution is traced.  Ranges that start with a `@' designate an address
+  range to be traced, those that start with an `#' designate a cycle count
+  range.  All other range values represent an instruction count range.  The
+  second argument, if specified with a `+', indicates a value relative
+  to the first argument, e.g., 1000:+100 == 1000:1100.  Program symbols may
+  be used in all contexts.
+
+    Examples:   -ptrace FOO.trc #0:#1000
+                -ptrace BAR.trc @2000:
+                -ptrace BLAH.trc :1500
+                -ptrace UXXE.trc :
+                -ptrace FOOBAR.trc @main:+278
+
+  Branch predictor configuration examples for 2-level predictor:
+    Configurations:   N, M, W, X
+      N   # entries in first level (# of shift register(s))
+      W   width of shift register(s)
+      M   # entries in 2nd level (# of counters, or other FSM)
+      X   (yes-1/no-0) xor history and address for 2nd level index
+    Sample predictors:
+      GAg     : 1, W, 2^W, 0
+      GAp     : 1, W, M (M > 2^W), 0
+      PAg     : N, W, 2^W, 0
+      PAp     : N, W, M (M == 2^(N+W)), 0
+      gshare  : 1, W, 2^W, 1
+  Predictor `comb' combines a bimodal and a 2-level predictor.
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** fast forwarding 50000000 insts **
+warning: syscall: sigvec ignored
+warning: syscall: sigvec ignored
+sim: ** starting performance simulation **
+in bpred_lookup TSBP function 1 times, current replay mode = 0
+in bpred_lookup TSBP function 2 times, current replay mode = 0
+in bpred_update() TSBP 1 times
+head in update = 1
+ts.head update = 0
+increment tail =  1 
+updating correctness buffer[1] = 1
+end of update: replay mode = 0 
+in bpred_lookup TSBP function 3 times, current replay mode = 0
+in bpred_lookup TSBP function 4 times, current replay mode = 0
+in bpred_update() TSBP 2 times
+head in update = 1
+ts.head update = 0
+increment tail =  2 
+updating correctness buffer[2] = 1
+end of update: replay mode = 0 
+in bpred_update() TSBP 3 times
+head in update = 1
+ts.head update = 0
+increment tail =  3 
+updating correctness buffer[3] = 0
+replay mode = 0 key = 4194288 head_table[key] = 0
+update tail = 3 at head table key: 4194288
+end of update: replay mode = 0 
+in bpred_lookup TSBP function 5 times, current replay mode = 0
+in bpred_update() TSBP 4 times
+head in update = 1
+ts.head update = 0
+increment tail =  4 
+updating correctness buffer[4] = 1
+end of update: replay mode = 0 
+in bpred_lookup TSBP function 6 times, current replay mode = 0
+in bpred_lookup TSBP function 7 times, current replay mode = 0
+in bpred_update() TSBP 5 times
+head in update = 1
+ts.head update = 0
+increment tail =  5 
+updating correctness buffer[5] = 1
+end of update: replay mode = 0 
+in bpred_lookup TSBP function 8 times, current replay mode = 0
+in bpred_update() TSBP 6 times
+head in update = 1
+ts.head update = 0
+increment tail =  6 
+updating correctness buffer[6] = 0
+replay mode = 0 key = 4194288 head_table[key] = 3
+update replay to TRUE, update head = 3
+update tail = 6 at head table key: 4194288
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 9 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 7 times
+head in update = 4
+ts.head update = 3
+increment tail =  7 
+updating correctness buffer[7] = 0
+replay mode = 1 key = 4194294 head_table[key] = 0
+update tail = 7 at head table key: 4194294
+end of update: replay mode = 1 
+in bpred_update() TSBP 8 times
+head in update = 4
+ts.head update = 3
+increment tail =  8 
+updating correctness buffer[8] = 0
+replay mode = 1 key = 4194038 head_table[key] = 0
+update tail = 8 at head table key: 4194038
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 10 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 9 times
+head in update = 4
+ts.head update = 3
+increment tail =  9 
+updating correctness buffer[9] = 0
+replay mode = 1 key = 4194294 head_table[key] = 7
+update tail = 9 at head table key: 4194294
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 11 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 12 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 10 times
+head in update = 4
+ts.head update = 3
+increment tail =  10 
+updating correctness buffer[10] = 0
+replay mode = 1 key = 4194038 head_table[key] = 8
+update tail = 10 at head table key: 4194038
+end of update: replay mode = 1 
+in bpred_update() TSBP 11 times
+head in update = 4
+ts.head update = 3
+increment tail =  11 
+updating correctness buffer[11] = 0
+replay mode = 1 key = 4194038 head_table[key] = 10
+update tail = 11 at head table key: 4194038
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 13 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 14 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 12 times
+head in update = 4
+ts.head update = 3
+increment tail =  12 
+updating correctness buffer[12] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 13 times
+head in update = 4
+ts.head update = 3
+increment tail =  13 
+updating correctness buffer[13] = 0
+replay mode = 1 key = 3145718 head_table[key] = 0
+update tail = 13 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 15 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 14 times
+head in update = 4
+ts.head update = 3
+increment tail =  14 
+updating correctness buffer[14] = 0
+replay mode = 1 key = 3145462 head_table[key] = 0
+update tail = 14 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 16 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 15 times
+head in update = 4
+ts.head update = 3
+increment tail =  15 
+updating correctness buffer[15] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 17 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 16 times
+head in update = 4
+ts.head update = 3
+increment tail =  16 
+updating correctness buffer[16] = 0
+replay mode = 1 key = 3145718 head_table[key] = 13
+update tail = 16 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 18 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 17 times
+head in update = 4
+ts.head update = 3
+increment tail =  17 
+updating correctness buffer[17] = 0
+replay mode = 1 key = 3145462 head_table[key] = 14
+update tail = 17 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 19 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 20 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 18 times
+head in update = 4
+ts.head update = 3
+increment tail =  18 
+updating correctness buffer[18] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 19 times
+head in update = 4
+ts.head update = 3
+increment tail =  19 
+updating correctness buffer[19] = 0
+replay mode = 1 key = 3145718 head_table[key] = 16
+update tail = 19 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 21 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 22 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 23 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 20 times
+head in update = 4
+ts.head update = 3
+increment tail =  20 
+updating correctness buffer[20] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 21 times
+head in update = 4
+ts.head update = 3
+increment tail =  21 
+updating correctness buffer[21] = 0
+replay mode = 1 key = 3145718 head_table[key] = 19
+update tail = 21 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_update() TSBP 22 times
+head in update = 4
+ts.head update = 3
+increment tail =  22 
+updating correctness buffer[22] = 0
+replay mode = 1 key = 3145462 head_table[key] = 17
+update tail = 22 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 24 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 25 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 23 times
+head in update = 4
+ts.head update = 3
+increment tail =  23 
+updating correctness buffer[23] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 24 times
+head in update = 4
+ts.head update = 3
+increment tail =  24 
+updating correctness buffer[24] = 0
+replay mode = 1 key = 3145718 head_table[key] = 21
+update tail = 24 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 26 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 27 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 28 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 25 times
+head in update = 4
+ts.head update = 3
+increment tail =  25 
+updating correctness buffer[25] = 0
+replay mode = 1 key = 3145462 head_table[key] = 22
+update tail = 25 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_update() TSBP 26 times
+head in update = 4
+ts.head update = 3
+increment tail =  26 
+updating correctness buffer[26] = 0
+replay mode = 1 key = 3145718 head_table[key] = 24
+update tail = 26 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 29 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 27 times
+head in update = 4
+ts.head update = 3
+increment tail =  27 
+updating correctness buffer[27] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 30 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 31 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 28 times
+head in update = 4
+ts.head update = 3
+increment tail =  28 
+updating correctness buffer[28] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 29 times
+head in update = 4
+ts.head update = 3
+increment tail =  29 
+updating correctness buffer[29] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 32 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 33 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 30 times
+head in update = 4
+ts.head update = 3
+increment tail =  30 
+updating correctness buffer[30] = 0
+replay mode = 1 key = 3145718 head_table[key] = 26
+update tail = 30 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 34 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 35 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 31 times
+head in update = 4
+ts.head update = 3
+increment tail =  31 
+updating correctness buffer[31] = 0
+replay mode = 1 key = 3145718 head_table[key] = 30
+update tail = 31 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 36 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 32 times
+head in update = 4
+ts.head update = 3
+increment tail =  32 
+updating correctness buffer[32] = 0
+replay mode = 1 key = 4194038 head_table[key] = 11
+update tail = 32 at head table key: 4194038
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 37 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 38 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 33 times
+head in update = 4
+ts.head update = 3
+increment tail =  33 
+updating correctness buffer[33] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 34 times
+head in update = 4
+ts.head update = 3
+increment tail =  34 
+updating correctness buffer[34] = 0
+replay mode = 1 key = 4194294 head_table[key] = 9
+update tail = 34 at head table key: 4194294
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 39 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 35 times
+head in update = 4
+ts.head update = 3
+increment tail =  35 
+updating correctness buffer[35] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 40 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 36 times
+head in update = 4
+ts.head update = 3
+increment tail =  36 
+updating correctness buffer[36] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 41 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 42 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 43 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 44 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 45 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 46 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 37 times
+head in update = 4
+ts.head update = 3
+increment tail =  37 
+updating correctness buffer[37] = 0
+replay mode = 1 key = 4194294 head_table[key] = 34
+update tail = 37 at head table key: 4194294
+end of update: replay mode = 1 
+in bpred_update() TSBP 38 times
+head in update = 4
+ts.head update = 3
+increment tail =  38 
+updating correctness buffer[38] = 0
+replay mode = 1 key = 4194294 head_table[key] = 37
+update tail = 38 at head table key: 4194294
+end of update: replay mode = 1 
+in bpred_update() TSBP 39 times
+head in update = 4
+ts.head update = 3
+increment tail =  39 
+updating correctness buffer[39] = 0
+replay mode = 1 key = 4194038 head_table[key] = 32
+update tail = 39 at head table key: 4194038
+end of update: replay mode = 1 
+in bpred_update() TSBP 40 times
+head in update = 4
+ts.head update = 3
+increment tail =  40 
+updating correctness buffer[40] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 41 times
+head in update = 4
+ts.head update = 3
+increment tail =  41 
+updating correctness buffer[41] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 47 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 42 times
+head in update = 4
+ts.head update = 3
+increment tail =  42 
+updating correctness buffer[42] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 48 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 43 times
+head in update = 4
+ts.head update = 3
+increment tail =  43 
+updating correctness buffer[43] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 44 times
+head in update = 4
+ts.head update = 3
+increment tail =  44 
+updating correctness buffer[44] = 0
+replay mode = 1 key = 3145718 head_table[key] = 31
+update tail = 44 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 49 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 45 times
+head in update = 4
+ts.head update = 3
+increment tail =  45 
+updating correctness buffer[45] = 0
+replay mode = 1 key = 3145462 head_table[key] = 25
+update tail = 45 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 50 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 51 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 46 times
+head in update = 4
+ts.head update = 3
+increment tail =  46 
+updating correctness buffer[46] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 47 times
+head in update = 4
+ts.head update = 3
+increment tail =  47 
+updating correctness buffer[47] = 0
+replay mode = 1 key = 3145718 head_table[key] = 44
+update tail = 47 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 52 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 48 times
+head in update = 4
+ts.head update = 3
+increment tail =  48 
+updating correctness buffer[48] = 0
+replay mode = 1 key = 3145462 head_table[key] = 45
+update tail = 48 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 53 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 49 times
+head in update = 4
+ts.head update = 3
+increment tail =  49 
+updating correctness buffer[49] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 54 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 50 times
+head in update = 4
+ts.head update = 3
+increment tail =  50 
+updating correctness buffer[50] = 1
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 55 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 56 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 51 times
+head in update = 4
+ts.head update = 3
+increment tail =  51 
+updating correctness buffer[51] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 52 times
+head in update = 4
+ts.head update = 3
+increment tail =  52 
+updating correctness buffer[52] = 0
+replay mode = 1 key = 3145718 head_table[key] = 47
+update tail = 52 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 57 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 53 times
+head in update = 4
+ts.head update = 3
+increment tail =  53 
+updating correctness buffer[53] = 0
+replay mode = 1 key = 3145462 head_table[key] = 48
+update tail = 53 at head table key: 3145462
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 58 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_lookup TSBP function 59 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+in bpred_update() TSBP 54 times
+head in update = 4
+ts.head update = 3
+increment tail =  54 
+updating correctness buffer[54] = 1
+end of update: replay mode = 1 
+in bpred_update() TSBP 55 times
+head in update = 4
+ts.head update = 3
+increment tail =  55 
+updating correctness buffer[55] = 0
+replay mode = 1 key = 3145718 head_table[key] = 52
+update tail = 55 at head table key: 3145718
+end of update: replay mode = 1 
+in bpred_lookup TSBP function 60 times, current replay mode = 1
+in replay mode head in dir_lookup 4
+in replay mode ts.head in dir_lookup 3
+
+sim: ** simulation statistics **
+sim_num_insn                    300 # total number of instructions committed
+sim_num_refs                    127 # total number of loads and stores committed
+sim_num_loads                    82 # total number of loads committed
+sim_num_stores              45.0000 # total number of stores committed
+sim_num_branches                 71 # total number of branches committed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate              100.0000 # simulation speed (in insts/sec)
+sim_total_insn                  370 # total number of instructions executed
+sim_total_refs                  152 # total number of loads and stores executed
+sim_total_loads                 100 # total number of loads executed
+sim_total_stores            52.0000 # total number of stores executed
+sim_total_branches               85 # total number of branches executed
+sim_cycle                      1184 # total simulation time in cycles
+sim_IPC                      0.2534 # instructions per cycle
+sim_CPI                      3.9467 # cycles per instruction
+sim_exec_BW                  0.3125 # total instructions (mis-spec + committed) per cycle
+sim_IPB                      4.2254 # instruction per branch
+IFQ_count                       805 # cumulative IFQ occupancy
+IFQ_fcount                      156 # cumulative IFQ full count
+ifq_occupancy                0.6799 # avg IFQ occupancy (insn's)
+ifq_rate                     0.3125 # avg IFQ dispatch rate (insn/cycle)
+ifq_latency                  2.1757 # avg IFQ occupant latency (cycle's)
+ifq_full                     0.1318 # fraction of time (cycle's) IFQ was full
+RUU_count                      5195 # cumulative RUU occupancy
+RUU_fcount                       45 # cumulative RUU full count
+ruu_occupancy                4.3877 # avg RUU occupancy (insn's)
+ruu_rate                     0.3125 # avg RUU dispatch rate (insn/cycle)
+ruu_latency                 14.0405 # avg RUU occupant latency (cycle's)
+ruu_full                     0.0380 # fraction of time (cycle's) RUU was full
+LSQ_count                      2372 # cumulative LSQ occupancy
+LSQ_fcount                       76 # cumulative LSQ full count
+lsq_occupancy                2.0034 # avg LSQ occupancy (insn's)
+lsq_rate                     0.3125 # avg LSQ dispatch rate (insn/cycle)
+lsq_latency                  6.4108 # avg LSQ occupant latency (cycle's)
+lsq_full                     0.0642 # fraction of time (cycle's) LSQ was full
+sim_slip                       6595 # total number of slip cycles
+avg_sim_slip                21.9833 # the average slip between issue and retirement
+bpred_tsbp.lookups               86 # total number of bpred lookups
+bpred_tsbp.updates               71 # total number of updates
+bpred_tsbp.addr_hits             31 # total number of address-predicted hits
+bpred_tsbp.dir_hits              39 # total number of direction-predicted hits (includes addr-hits)
+bpred_tsbp.replays               49 # total number of replays
+bpred_tsbp.misses                32 # total number of misses
+bpred_tsbp.jr_hits                5 # total number of address-predicted hits for JR's
+bpred_tsbp.jr_seen                6 # total number of JR's seen
+bpred_tsbp.jr_non_ras_hits.PP            0 # total number of address-predicted hits for non-RAS JR's
+bpred_tsbp.jr_non_ras_seen.PP            0 # total number of non-RAS JR's seen
+bpred_tsbp.bpred_addr_rate    0.4366 # branch address-prediction rate (i.e., addr-hits/updates)
+bpred_tsbp.bpred_dir_rate    0.5493 # branch direction-prediction rate (i.e., all-hits/updates)
+bpred_tsbp.bpred_jr_rate    0.8333 # JR address-prediction rate (i.e., JR addr-hits/JRs seen)
+bpred_tsbp.bpred_jr_non_ras_rate.PP <error: divide by zero> # non-RAS JR addr-pred rate (ie, non-RAS JR hits/JRs seen)
+bpred_tsbp.retstack_pushes           12 # total number of address pushed onto ret-addr stack
+bpred_tsbp.retstack_pops            6 # total number of address popped off of ret-addr stack
+bpred_tsbp.used_ras.PP            6 # total number of RAS predictions used
+bpred_tsbp.ras_hits.PP            5 # total number of RAS hits
+bpred_tsbp.ras_rate.PP    0.8333 # RAS prediction rate (i.e., RAS hits/used RAS)
+il1.accesses                    445 # total number of accesses
+il1.hits                        396 # total number of hits
+il1.misses                       49 # total number of misses
+il1.replacements                 15 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.1101 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0337 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses                    137 # total number of accesses
+dl1.hits                        108 # total number of hits
+dl1.misses                       29 # total number of misses
+dl1.replacements                  0 # total number of replacements
+dl1.writebacks                    0 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.2117 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0000 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ul2.accesses                     78 # total number of accesses
+ul2.hits                         33 # total number of hits
+ul2.misses                       45 # total number of misses
+ul2.replacements                  0 # total number of replacements
+ul2.writebacks                    0 # total number of writebacks
+ul2.invalidations                 0 # total number of invalidations
+ul2.miss_rate                0.5769 # miss rate (i.e., misses/ref)
+ul2.repl_rate                0.0000 # replacement rate (i.e., repls/ref)
+ul2.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+ul2.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+itlb.accesses                   445 # total number of accesses
+itlb.hits                       441 # total number of hits
+itlb.misses                       4 # total number of misses
+itlb.replacements                 0 # total number of replacements
+itlb.writebacks                   0 # total number of writebacks
+itlb.invalidations                0 # total number of invalidations
+itlb.miss_rate               0.0090 # miss rate (i.e., misses/ref)
+itlb.repl_rate               0.0000 # replacement rate (i.e., repls/ref)
+itlb.wb_rate                 0.0000 # writeback rate (i.e., wrbks/ref)
+itlb.inv_rate                0.0000 # invalidation rate (i.e., invs/ref)
+dtlb.accesses                   137 # total number of accesses
+dtlb.hits                       129 # total number of hits
+dtlb.misses                       8 # total number of misses
+dtlb.replacements                 0 # total number of replacements
+dtlb.writebacks                   0 # total number of writebacks
+dtlb.invalidations                0 # total number of invalidations
+dtlb.miss_rate               0.0584 # miss rate (i.e., misses/ref)
+dtlb.repl_rate               0.0000 # replacement rate (i.e., repls/ref)
+dtlb.wb_rate                 0.0000 # writeback rate (i.e., wrbks/ref)
+dtlb.inv_rate                0.0000 # invalidation rate (i.e., invs/ref)
+sim_invalid_addrs                 0 # total non-speculative bogus addresses seen (debug var)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                2166768 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                 264644 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                  771 # total number of pages allocated
+mem.page_mem                  3084k # total size of memory pages allocated
+mem.ptab_misses                 872 # total first level page table misses
+mem.ptab_accesses         360053213 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+Post-run gcc
+rm -f -r varasm.*
