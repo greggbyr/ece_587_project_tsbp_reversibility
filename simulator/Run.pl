@@ -31,7 +31,7 @@
 
 ###########################################################################
 ## hpux/linux/NT specific settings go up here
-$exp_dir = "/u/greggbyr/Documents/ece587/proj_git/simulator";
+$exp_dir = "/u/vvan/ECE587/repo/ece_587_project_tsbp_reversibility/simulator";
 $bench_dir = "$exp_dir/bench";
 $input_dir = "$exp_dir/input/ref";
 $output_dir = "$exp_dir/output/ref";
