@@ -13,7 +13,7 @@ non-commercial use.  No portion of this work may be used by any commercial
 entity, or for any commercial purpose, without the prior written permission
 of SimpleScalar, LLC (info@simplescalar.com).
 
-fatal: cannot open executable `run.gcc2k'
-****** program returns ERROR 256
+Killed
+****** program returns ERROR 35072
 Post-run gcc2k
 rm -f -r cccp.i 
