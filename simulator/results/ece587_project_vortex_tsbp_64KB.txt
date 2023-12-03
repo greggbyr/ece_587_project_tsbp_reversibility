@@ -6,7 +6,7 @@ Pre-run vortex
 cp /u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/vortex.* . ; cp /u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/persons.1k . ; cp /u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/bendian.*nv . 
 cp: cannot stat '/u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/bendian.*nv': No such file or directory
 Run vortex
-/u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 65536 16 1 30 run.vortex vortex.in > vortex.out
+/u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 65536 16 1 16 run.vortex vortex.in > vortex.out
 sim-outorder: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
 Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
 All Rights Reserved. This version of SimpleScalar is licensed for academic
@@ -14,9 +14,9 @@ non-commercial use.  No portion of this work may be used by any commercial
 entity, or for any commercial purpose, without the prior written permission
 of SimpleScalar, LLC (info@simplescalar.com).
 
-sim: command line: /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 65536 16 1 30 run.vortex vortex.in 
+sim: command line: /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 65536 16 1 16 run.vortex vortex.in 
 
-sim: simulation started @ Thu Nov 30 20:23:29 2023, options follow:
+sim: simulation started @ Sun Dec  3 13:06:20 2023, options follow:
 
 sim-outorder: This simulator implements a very detailed out-of-order issue
 superscalar processor with a two-level memory system and speculative
@@ -44,7 +44,7 @@ latency of all pipeline operations.
 -bpred                   tsbp # branch predictor type {nottaken|taken|perfect|bimod|2lev|comb|tsbp}
 -bpred:bimod     2048 # bimodal predictor config (<table size>)
 -bpred:2lev      1 1024 8 0 # 2-level predictor config (<l1size> <l2size> <hist_size> <xor>)
--bpred:tsbp      1 65536 16 1 30 # TSBP predictor config (<l1size> <l2size> <hist_size> <xor> <head_table_width>)
+-bpred:tsbp      1 65536 16 1 16 # TSBP predictor config (<l1size> <l2size> <hist_size> <xor> <head_table_width>)
 -bpred:comb      1024 # combining predictor config (<meta_table_size>)
 -bpred:ras                  8 # return address stack size (0 for no return stack)
 -bpred:btb       512 4 # BTB config (<num_sets> <associativity>)
@@ -260,7 +260,7 @@ ld_target_big_endian              0 # target executable endian-ness, non-zero if
 mem.page_count                  324 # total number of pages allocated
 mem.page_mem                  1296k # total size of memory pages allocated
 mem.ptab_misses                 332 # total first level page table misses
-mem.ptab_accesses           8765808 # total page table accesses
+mem.ptab_accesses           8765806 # total page table accesses
 mem.ptab_miss_rate           0.0000 # first level page table miss rate
 
 Post-run vortex
