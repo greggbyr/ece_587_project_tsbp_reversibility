@@ -1,45 +1,45 @@
 echo "running cmd for gzip"
-./Run.pl -db ./bench.db -dir results/gzip_project_tsbp_16KB -benchmark gzip -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_gzip_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/gzip_project_tsbp_16KB -benchmark gzip -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_gzip_tsbp_16KB.txt
 echo "running cmd for vpr"
-./Run.pl -db ./bench.db -dir results/vpr_project_tsbp_16KB -benchmark vpr -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_vpr_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/vpr_project_tsbp_16KB -benchmark vpr -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_vpr_tsbp_16KB.txt
 echo "running cmd for gcc2k"
-./Run.pl -db ./bench.db -dir results/gcc2k_project_tsbp_16KB -benchmark gcc2k -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_gcc2k_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/gcc2k_project_tsbp_16KB -benchmark gcc2k -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_gcc2k_tsbp_16KB.txt
 echo "running cmd for mcf"
-./Run.pl -db ./bench.db -dir results/mcf_project_tsbp_16KB -benchmark mcf -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_mcf_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/mcf_project_tsbp_16KB -benchmark mcf -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_mcf_tsbp_16KB.txt
 echo "running cmd for crafty"
-./Run.pl -db ./bench.db -dir results/crafty_project_tsbp_16KB -benchmark crafty -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_crafty_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/crafty_project_tsbp_16KB -benchmark crafty -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_crafty_tsbp_16KB.txt
 echo "running cmd for go"
-./Run.pl -db ./bench.db -dir results/go_project_tsbp_16KB -benchmark go -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_go_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/go_project_tsbp_16KB -benchmark go -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_go_tsbp_16KB.txt
 echo "running cmd for gcc"
-./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_16KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_gcc_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/gcc_project_tsbp_16KB -benchmark gcc -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_gcc_tsbp_16KB.txt
 echo "running cmd for m88ksim"
-./Run.pl -db ./bench.db -dir results/m88ksim_project_tsbp_16KB -benchmark m88ksim -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_m88ksim_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/m88ksim_project_tsbp_16KB -benchmark m88ksim -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_m88ksim_tsbp_16KB.txt
 echo "running cmd for compress"
-./Run.pl -db ./bench.db -dir results/compress_project_tsbp_16KB -benchmark compress -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_compress_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/compress_project_tsbp_16KB -benchmark compress -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_compress_tsbp_16KB.txt
 echo "running cmd for li"
-./Run.pl -db ./bench.db -dir results/li_project_tsbp_16KB -benchmark li -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_li_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/li_project_tsbp_16KB -benchmark li -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_li_tsbp_16KB.txt
 echo "running cmd for ijpeg"
-./Run.pl -db ./bench.db -dir results/ijpeg_project_tsbp_16KB -benchmark ijpeg -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_ijpeg_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/ijpeg_project_tsbp_16KB -benchmark ijpeg -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_ijpeg_tsbp_16KB.txt
 echo "running cmd for perl"
-./Run.pl -db ./bench.db -dir results/perl_project_tsbp_16KB -benchmark perl -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_perl_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/perl_project_tsbp_16KB -benchmark perl -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_perl_tsbp_16KB.txt
 echo "running cmd for vortex"
-./Run.pl -db ./bench.db -dir results/vortex_project_tsbp_16KB -benchmark vortex -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_vortex_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/vortex_project_tsbp_16KB -benchmark vortex -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_vortex_tsbp_16KB.txt
 echo "running cmd for tomcatv"
-./Run.pl -db ./bench.db -dir results/tomcatv_project_tsbp_16KB -benchmark tomcatv -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_tomcatv_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/tomcatv_project_tsbp_16KB -benchmark tomcatv -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_tomcatv_tsbp_16KB.txt
 echo "running cmd for swim"
-./Run.pl -db ./bench.db -dir results/swim_project_tsbp_16KB -benchmark swim -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_swim_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/swim_project_tsbp_16KB -benchmark swim -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_swim_tsbp_16KB.txt
 echo "running cmd for su2cor"
-./Run.pl -db ./bench.db -dir results/su2cor_project_tsbp_16KB -benchmark su2cor -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_su2cor_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/su2cor_project_tsbp_16KB -benchmark su2cor -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_su2cor_tsbp_16KB.txt
 echo "running cmd for hydro2d"
-./Run.pl -db ./bench.db -dir results/hydro2d_project_tsbp_16KB -benchmark hydro2d -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_hydro2d_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/hydro2d_project_tsbp_16KB -benchmark hydro2d -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_hydro2d_tsbp_16KB.txt
 echo "running cmd for mgrid"
-./Run.pl -db ./bench.db -dir results/mgrid_project_tsbp_16KB -benchmark mgrid -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_mgrid_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/mgrid_project_tsbp_16KB -benchmark mgrid -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_mgrid_tsbp_16KB.txt
 echo "running cmd for applu"
-./Run.pl -db ./bench.db -dir results/applu_project_tsbp_16KB -benchmark applu -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_applu_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/applu_project_tsbp_16KB -benchmark applu -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_applu_tsbp_16KB.txt
 echo "running cmd for turb3d"
-./Run.pl -db ./bench.db -dir results/turb3d_project_tsbp_16KB -benchmark turb3d -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_turb3d_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/turb3d_project_tsbp_16KB -benchmark turb3d -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_turb3d_tsbp_16KB.txt
 echo "running cmd for apsi"
-./Run.pl -db ./bench.db -dir results/apsi_project_tsbp_16KB -benchmark apsi -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 30" >& results/ece587_project_apsi_tsbp_16KB.txt
+./Run.pl -db ./bench.db -dir results/apsi_project_tsbp_16KB -benchmark apsi -sim /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -args "-fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 16384 14 1 16" >& results/ece587_project_apsi_tsbp_16KB.txt
 
 
 

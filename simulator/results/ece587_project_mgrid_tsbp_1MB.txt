@@ -6,7 +6,7 @@ Pre-run mgrid
 cp /u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/mgrid.* .
 cp: cannot stat '/u/greggbyr/Documents/ece587/proj_git/simulator/input/ref/mgrid.*': No such file or directory
 Run mgrid
-/u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 1048576 20 1 30 run.mgrid  < mgrid.in > mgrid.out
+/u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 1048576 20 1 16 run.mgrid  < mgrid.in > mgrid.out
 sh: 1: cannot open mgrid.in: No such file
 ****** program returns ERROR 512
 Post-run mgrid
