@@ -329,7 +329,7 @@ bpred_ts_create (
   /* initialize current tail of the correctness buffer */
   pred_ts->ts.tail = 0;
   
-  /* initialize replay flag */
+  /* initialize replay to false */
   pred_ts->ts.replay = FALSE;
 
   return pred_ts;
@@ -673,6 +673,7 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
   struct bpred_btb_ent_t *pbtb = NULL;
   int index, i;
   char base_outcome;
+  bool_t invert = FALSE;
 
   if (!dir_update_ptr)
     panic("no bpred update record");
@@ -759,7 +760,7 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
 	  
 	     if (pred->dirpred.tsbp->ts.correctness_buffer[pred->dirpred.tsbp->ts.head_table[key]] == 0) {
                 //base_outcome = 3 - base_outcome;		//Set base outcome to opposite value (if 3, becomes 0 or if 1 becomes 2)
-    	        *dir_update_ptr->pdir1 = 3 - *dir_update_ptr->pdir1; 
+    	        invert = TRUE; 
 	     }
           }
 
@@ -860,16 +861,34 @@ bpred_lookup(struct bpred_t *pred,	/* branch predictor instance */
   if (pbtb == NULL)
     {
       /* BTB miss -- just return a predicted direction */
-      return ((*(dir_update_ptr->pdir1) >= 2)
-	      ? /* taken */ 1
-	      : /* not taken */ 0);
+      if (invert) /* TS inverts result */
+      {
+	    return ((*(dir_update_ptr->pdir1) >= 2)
+	      ? /* taken */ 0
+	      : /* not taken */ 1);
+      }
+      else 
+      {
+	    return ((*(dir_update_ptr->pdir1) >= 2)
+              ? /* taken */ 1
+              : /* not taken */ 0);
+      }
     }
   else
     {
       /* BTB hit, so return target if it's a predicted-taken branch */
-      return ((*(dir_update_ptr->pdir1) >= 2)
-	      ? /* taken */ pbtb->target
-	      : /* not taken */ 0);
+      if (invert) /* TS inverts result */
+      {
+	    return ((*(dir_update_ptr->pdir1) >= 2)
+	      ? /* taken */ 0
+	      : /* not taken */ pbtb->target);
+      }
+      else
+      {
+	    return ((*(dir_update_ptr->pdir1) >= 2)
+              ? /* taken */ pbtb->target
+              : /* not taken */ 0);
+      }
     }
 }
 
@@ -1181,9 +1200,9 @@ bpred_update(struct bpred_t *pred,	/* branch predictor instance */
   /* update state (but not for jumps) */
   if (dir_update_ptr->pdir1)
     { 
-        if (was_replay && was_inverted) {
-           *dir_update_ptr->pdir1 = 3 - *dir_update_ptr->pdir1;
-        }
+        //if (was_replay && was_inverted) {
+        //   *dir_update_ptr->pdir1 = 3 - *dir_update_ptr->pdir1;
+        //}
 
         if (taken) {
           if (*dir_update_ptr->pdir1 < 3)

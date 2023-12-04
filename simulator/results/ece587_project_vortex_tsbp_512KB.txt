@@ -16,7 +16,7 @@ of SimpleScalar, LLC (info@simplescalar.com).
 
 sim: command line: /u/greggbyr/Documents/ece587/proj_git/simulator/ss3/sim-outorder -fastfwd 50000000 -max:inst 10000000 -bpred tsbp -bpred:tsbp 1 524288 19 1 16 run.vortex vortex.in 
 
-sim: simulation started @ Sun Dec  3 13:05:33 2023, options follow:
+sim: simulation started @ Sun Dec  3 16:24:16 2023, options follow:
 
 sim-outorder: This simulator implements a very detailed out-of-order issue
 superscalar processor with a two-level memory system and speculative
