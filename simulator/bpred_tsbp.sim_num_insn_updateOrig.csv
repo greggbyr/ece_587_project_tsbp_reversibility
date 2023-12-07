@@ -1,0 +1,6 @@
+results/ece587_project_gcc_tsbp_512KB_16_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed
+results/ece587_project_gcc_tsbp_512KB_1_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed
+results/ece587_project_gcc_tsbp_512KB_24_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed
+results/ece587_project_gcc_tsbp_512KB_2_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed
+results/ece587_project_gcc_tsbp_512KB_4_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed
+results/ece587_project_gcc_tsbp_512KB_8_updateOrig.txt:sim_num_insn               10000002 # total number of instructions committed

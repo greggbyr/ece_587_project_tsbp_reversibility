@@ -1,0 +1,6 @@
+results/ece587_project_gcc_tsbp_512KB_16_updateOrig.txt:bpred_tsbp.misses            178125 # total number of misses
+results/ece587_project_gcc_tsbp_512KB_1_updateOrig.txt:bpred_tsbp.misses            187774 # total number of misses
+results/ece587_project_gcc_tsbp_512KB_24_updateOrig.txt:bpred_tsbp.misses            184838 # total number of misses
+results/ece587_project_gcc_tsbp_512KB_2_updateOrig.txt:bpred_tsbp.misses            184626 # total number of misses
+results/ece587_project_gcc_tsbp_512KB_4_updateOrig.txt:bpred_tsbp.misses            180649 # total number of misses
+results/ece587_project_gcc_tsbp_512KB_8_updateOrig.txt:bpred_tsbp.misses            180623 # total number of misses

@@ -1,0 +1,6 @@
+results/ece587_project_gcc_tsbp_512KB_16_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8841 # branch address-prediction rate (i.e., addr-hits/updates)
+results/ece587_project_gcc_tsbp_512KB_1_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8793 # branch address-prediction rate (i.e., addr-hits/updates)
+results/ece587_project_gcc_tsbp_512KB_24_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8807 # branch address-prediction rate (i.e., addr-hits/updates)
+results/ece587_project_gcc_tsbp_512KB_2_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8809 # branch address-prediction rate (i.e., addr-hits/updates)
+results/ece587_project_gcc_tsbp_512KB_4_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8828 # branch address-prediction rate (i.e., addr-hits/updates)
+results/ece587_project_gcc_tsbp_512KB_8_updateOrig.txt:bpred_tsbp.bpred_addr_rate    0.8829 # branch address-prediction rate (i.e., addr-hits/updates)
