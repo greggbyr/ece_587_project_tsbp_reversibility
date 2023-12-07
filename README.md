@@ -11,3 +11,6 @@ bpred_update(): modifications were made to add TS update logic that include upda
 
 simulator/ss3/sim-outorder.c has changes to add the TS predictor as a valid predictor option
 
+Run Scripts: ece_587_project_bench_runs_gshare, ece_587_project_bench_runs_tsbp, ece_587_project_bench_runs_default are scripts for running sim-outorder simulations with the gshare/tsbp/default predictors using varying paramaters and the provided benchmarks.
+
+CSV files contain performance metrics for gshare and TSBP predictors
