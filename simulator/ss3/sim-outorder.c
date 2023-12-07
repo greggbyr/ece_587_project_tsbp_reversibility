@@ -126,7 +126,7 @@ static int twolev_config[4] =
 /* tsbp config (<l1size> <l2size> <hist_size> <xor> <head_table_width>) */  
 static int tsbp_nelt = 5;
 static int tsbp_config[5] =
-  { /* l1size */1, /* l2size */16384, /* hist */14, /* xor */TRUE, /*head_table_width*/ 16384};
+  { /* l1size */1, /* l2size */16384, /* hist */14, /* xor */TRUE, /*head_table_width*/ 16};
 
 /* combining predictor config (<meta_table_size> */
 static int comb_nelt = 1;
@@ -671,7 +671,8 @@ sim_reg_options(struct opt_odb_t *odb)
                    twolev_config, twolev_nelt, &twolev_nelt,
 		   /* default */twolev_config,
                    /* print */TRUE, /* format */NULL, /* !accrue */FALSE);
-				   
+
+  /*added tsbp option*/			   
   opt_reg_int_list(odb, "-bpred:tsbp",
                    "TSBP predictor config "
 		   "(<l1size> <l2size> <hist_size> <xor> <head_table_width>)",
